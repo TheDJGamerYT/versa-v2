@@ -55,8 +55,15 @@ async def setstatus(ctx, status: str):
     await bot.change_presence(status=status_types[status.lower()])
     await ctx.send(f"Status set to {status}")
 
-@bot.command(name='broadcast')
-@commands.has_permissions(administrator=True)
+# Create a command group for bot owner commands
+@commands.group(name='botownertroll', invoke_without_command=True)
+@commands.is_owner()  # Ensure only the bot owner can use this command group
+async def botownertroll(ctx):
+    """Commands for the bot owner."""
+    await ctx.send("Available bot owner commands: broadcast")
+
+# Add the broadcast command to the botownertroll group
+@botownertroll.command(name='broadcast')
 async def broadcast(ctx, *, message: str):
     """Broadcasts a message to all text channels in the server."""
     guild = ctx.guild
